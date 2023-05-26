@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="s.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <label>Vehicle Average</label>
+            <input type="number" id="avg" name="avg">
+            <label>Distance</label>
+            <input type="radio" name="dis1" id="KM" onclick="toggleTextBox()">Kilometer
+            <input type="radio" name="dis1" id="M" onclick="toggleTextBox()">Meter
+            <div id="textboxContainer" class="hidden1">
+                <input type="number" id="dis" name="dis">
+            </div>
+            <label>Petrol Price</label>
+            <input type="number" id="pet" name="pet">
+            
+            <input type="button" id="Submit" name="Submit" value="Submit">
+            <label id="l1" class="hidden" value=""></label>
+        </div>
+    </div>
+
+    <script>
+        var element = document.getElementById("Submit");
+        var avg = document.getElementById("avg");
+        var dis = document.getElementById("dis");
+        var res = document.getElementById("l1");
+        var pet = document.getElementById("pet");
+        var radioButtons = document.getElementsByName("dis1");
+
+        function toggleTextBox() {
+            var textboxContainer = document.getElementById("textboxContainer");
+
+            if (radioButtons[0].checked || radioButtons[1].checked) {
+                textboxContainer.classList.remove("hidden1");
+            } else {
+                textboxContainer.classList.add("hidden1");
+            }
+        }
+
+        function myFunction() {
+            var avg1 = parseFloat(avg.value);
+            var dis1 = parseFloat(dis.value);
+            var pet1 = parseFloat(pet.value);
+
+            if (!avg1 || !pet1 ||!dis1) {
+                event.preventDefault();
+                alert('Fill the details!!');
+            } else {
+                if (document.getElementById("textboxContainer").classList.contains("hidden1")) {
+                    dis1 = 0;
+                }
+
+                if (radioButtons[0].checked) {
+                    var cost = (dis1 / avg1) * pet1;
+                    res.innerHTML = "To cover a distance of " + dis1 + " km with an average of " + avg1 + " it will cost you Rs." + cost.toFixed(2);
+                } else if (radioButtons[1].checked) {
+                    var cost = (dis1 / avg1) * (pet1 / 1000);
+                    res.innerHTML = "To cover a distance of " + dis1 + " m with an average of " + avg1 + " it will cost you Rs." + cost.toFixed(2);
+                }
+
+                res.classList.remove('hidden');
+            }
+        }
+
+        element.addEventListener("click", myFunction);
+    </script>
+</body>
+</html>
